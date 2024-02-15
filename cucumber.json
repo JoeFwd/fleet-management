@@ -1,0 +1,12 @@
+{
+  "default": {
+    "format": ["progress", "json:reports/cucumber_report.json"]
+  },
+  "critical": {
+    "format": ["progress", "json:reports/cucumber_report.json"],
+    "tags": "@critical",
+    "worldParameters": {
+      "useExternalDb": true
+    }
+  }
+}

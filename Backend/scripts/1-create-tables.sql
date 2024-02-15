@@ -1,0 +1,16 @@
+create table fleet ("id" serial primary key);
+create table location ("id" serial primary key, "latitude" numeric(10,7) not null, "longitude" numeric(10,7) not null, "altitude" numeric(10,7) not null);
+create table "user" ("id" serial primary key);
+create table fleet_ownership ("userId" int not null, "fleetId" int not null, constraint "fleet_ownership_pkey" primary key ("userId", "fleetId"));
+alter table fleet_ownership add constraint "fleet_ownership_fleet_id_key" unique ("fleetId");
+create table vehicle ("id" serial primary key, "plateNumber" text not null);
+create table registration ("fleetId" int not null, "vehicleId" int not null, constraint "registration_pkey" primary key ("fleetId", "vehicleId"));
+create table parked_vehicle ("locationId" int not null, "vehicleId" int not null, constraint "parked_vehicle_pkey" primary key ("locationId", "vehicleId"));
+alter table parked_vehicle add constraint "parked_vehicle_location_id_key" unique ("locationId");
+alter table parked_vehicle add constraint "parked_vehicle_vehicle_id_key" unique ("vehicleId");
+alter table fleet_ownership add constraint "fleet_ownership_userId_foreign" foreign key ("userId") references "user" ("id") on update cascade;
+alter table fleet_ownership add constraint "fleet_ownership_fleetId_foreign" foreign key ("fleetId") references fleet ("id") on update cascade;
+alter table registration add constraint "registration_fleetId_foreign" foreign key ("fleetId") references fleet ("id") on update cascade on delete cascade;
+alter table registration add constraint "registration_vehicleId_foreign" foreign key ("vehicleId") references vehicle ("id") on update cascade on delete cascade;
+alter table parked_vehicle add constraint "parked_vehicle_locationId_foreign" foreign key ("locationId") references "location" ("id") on update cascade;
+alter table parked_vehicle add constraint "parked_vehicle_vehicleId_foreign" foreign key ("vehicleId") references vehicle ("id") on update cascade;

@@ -1,0 +1,41 @@
+@startuml
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+
+table( user ) {
+  primary_key( id ): INTEGER
+  column( name ): CHARACTER VARYING
+}
+
+table( fleet ) {
+  primary_key( id ): INTEGER
+  foreign_key( userId ): INTEGER <<FK>>
+}
+
+table( vehicule ) {
+  primary_key( id ): INTEGER 
+  column( plateNumber ): CHARACTER VARYING
+}
+
+table( registration ) {
+  primary_key( id ): INTEGER
+  foreign_key( fleetId ): INTEGER <<FK>>
+  foreign_key( vehiculeId ): INTEGER <<FK>>
+}
+
+table( parking ) {
+  primary_key( id ): INTEGER 
+  foreign_key( registrationId ): INTEGER <<FK>>
+  column( latitude ): DECIMAL(10,7)
+  column( longitude ): DECIMAL(10,7)
+  column( altitude ): DECIMAL(10,7)
+}
+
+fleet }|--|| user
+registration }|--|| fleet
+registration }|--|| vehicule
+parking }|--|| registration
+
+@enduml

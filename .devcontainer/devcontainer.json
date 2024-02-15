@@ -1,0 +1,8 @@
+{
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "postCreateCommand": {
+    "devcontainer": ["bash", ".devcontainer/init-yarn.sh"]
+  }
+}
